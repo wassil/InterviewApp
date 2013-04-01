@@ -1,11 +1,12 @@
 package com.wassil.interviewApp.red5;
 
+import java.util.Date;
+
 import org.red5.server.adapter.ApplicationAdapter;
 import org.red5.server.api.IConnection;
-import org.red5.server.api.IScope;
+import org.red5.server.api.scope.IScope;
 import org.red5.server.api.service.ServiceUtils;
 import org.red5.server.api.stream.IBroadcastStream;
-
 public class Application extends ApplicationAdapter {
 
     @Override
@@ -28,7 +29,8 @@ public class Application extends ApplicationAdapter {
     @Override
     public void streamPublishStart(IBroadcastStream stream){
 	    try {
-	    	stream.saveAs(stream.getPublishedName(), false);
+	    	Date date = new Date();
+	    	stream.saveAs("../videos/"+Long.toString((date.getTime()/1000)), false);
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    }
