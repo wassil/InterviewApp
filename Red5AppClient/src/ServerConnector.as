@@ -8,7 +8,6 @@ package  {
 	 * @author wassil
 	 */
 	public class ServerConnector {
-		private static const URL:String = "rtmp://127.0.0.1/Red5App";
 		
 		private static var _instance:ServerConnector;
 		public static function get instance():ServerConnector { 
@@ -22,10 +21,10 @@ package  {
 			
 		}
 
-		public function connect(callback:Function):void {
+		public function connect(url:String, callback:Function):void {
 			connectedCallback = callback;
 			connection = new NetConnection();
-			connection.connect(URL);
+			connection.connect(url);
 			connection.addEventListener(NetStatusEvent.NET_STATUS, onConnectionNetStatus);
 			connection.client = this;
 		}

@@ -9,6 +9,7 @@ package  {
 	 * @author wassil
 	 */
 	public class VideoStreamer {
+		private var streamName:String;
 		public var netStream:NetStream;		
 		private var mic:Microphone;
 		public var cam:Camera;
@@ -17,7 +18,8 @@ package  {
 		
 		private var readyCallback:Function;
 		
-		public function VideoStreamer(callback:Function) {
+		public function VideoStreamer(streamName:String, callback:Function) {
+			this.streamName = streamName;
 			this.readyCallback = callback;
 			initStream();
 			attachDevices();
@@ -40,7 +42,7 @@ package  {
 		}
 
 		private function configureMic():void {
-			mic.rate = 22;
+			mic.rate = 44;
 			mic.gain = 50;
 			mic.setLoopBack(true);
 			mic.setUseEchoSuppression(true);
@@ -49,9 +51,9 @@ package  {
 
 		private function configureCam():void{
 			cam.setLoopback(true);
-			cam.setMode(800,600,15);
+			cam.setMode(300,300,15);
 			cam.setKeyFrameInterval(5);
-			cam.setQuality(0,70);
+			cam.setQuality(0,100);
 			cam.addEventListener(StatusEvent.STATUS, onCamStatus);
 		}
 
@@ -89,7 +91,8 @@ package  {
 		public function startRecording():void{
 			netStream.attachAudio(mic);
 			netStream.attachCamera(cam);
-			netStream.publish("stream","live");
+			//netStream.
+			netStream.publish(this.streamName,"live");
 		}
 
 		public function stopRecording():void{

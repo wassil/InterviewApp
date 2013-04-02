@@ -7,6 +7,11 @@ import org.red5.server.api.IConnection;
 import org.red5.server.api.scope.IScope;
 import org.red5.server.api.service.ServiceUtils;
 import org.red5.server.api.stream.IBroadcastStream;
+import org.red5.server.api.stream.IPlayItem;
+import org.red5.server.api.stream.IPlaylistSubscriberStream;
+import org.red5.server.api.stream.ISubscriberStream;
+import org.red5.server.api.stream.support.SimplePlayItem;
+import org.red5.server.stream.PlaylistSubscriberStream;
 public class Application extends ApplicationAdapter {
 
     @Override
@@ -29,8 +34,8 @@ public class Application extends ApplicationAdapter {
     @Override
     public void streamPublishStart(IBroadcastStream stream){
 	    try {
-	    	Date date = new Date();
-	    	stream.saveAs("../videos/"+Long.toString((date.getTime()/1000)), false);
+	    	System.out.println("saving as "+stream.getPublishedName());
+	    	stream.saveAs(stream.getPublishedName(), false);
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    }
@@ -44,7 +49,13 @@ public class Application extends ApplicationAdapter {
     @Override
     public void streamBroadcastStart(IBroadcastStream stream){
     	System.out.print("Broadcast Started");
+    	//SimplePlayItem.build(name)
     }
     
-
+    @Override
+    public void streamSubscriberStart(ISubscriberStream stream){
+    	String name = ((PlaylistSubscriberStream)stream).getItem(0).getName();
+    	System.out.println("Subscriber Start "+name);
+    }
+    
 }
